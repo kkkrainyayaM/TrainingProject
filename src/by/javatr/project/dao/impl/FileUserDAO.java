@@ -1,37 +1,29 @@
 package by.javatr.project.dao.impl;
 
 import by.javatr.project.bean.User;
-import by.javatr.project.dao.IDGenerator;
 import by.javatr.project.dao.UserDAO;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileUserDAO implements UserDAO {
 
-     private static final String FILE_NAME = "../resource/user.txt";
-     private FileWriter fileWriter = new FileWriter(FILE_NAME, true);
-    private FileReader fileReader = new FileReader(FILE_NAME);
+    private static final String FILE_NAME = "../resource/user.txt";
+    private FileWriter fileWriter = new FileWriter( FILE_NAME, true );
+    private FileReader fileReader = new FileReader( FILE_NAME );
 
     public FileUserDAO() throws IOException {
     }
 
     @Override
-    public void signIn(String login, String password) {
-
+    public boolean signIn(String loginInp, String passwordInp) {
+        return false;
     }
 
     @Override
-    public void signUp(User user) {
-        try {
-        fileWriter.write( user.getId()+" "+user.getType()+" " +user.getLogin()+" "+ user.getPassword()+" "+user.getName() );
-        fileWriter.flush();
-    }
-    catch (IOException e) {
-        e.printStackTrace();
-    }
+    public boolean signUp(User user) {
+        return true;
 
     }
 

@@ -1,35 +1,37 @@
 package by.javatr.project.bean;
 
-import by.javatr.project.dao.IDGenerator;
+import by.javatr.project.idgenerator.IDGenerator;
 
 import java.util.Objects;
 
 public class User {
     private int id;
-    private User type;
+    private UserType type;
     private String name;
     private String login;
     private String password;
 
-    public User(User type,String name, String login, String password) {
+    public User(UserType type,String name, String login, String password) {
         this.id = IDGenerator.getInstance().getIDUser();
         this.name = name;
         this.type = type;
         this.login = login;
         this.password = password;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public int getId() {
         return id;
     }
 
-    public User getType() {
+    public UserType getType() {
         return type;
     }
 
-    public void setType(User type) {
+    public void setType(UserType type) {
         this.type = type;
     }
 
@@ -52,7 +54,7 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if( this == o ) return true;
-        if( (o.getClass()!= User.class) ) return false;
+        if( (o.getClass() != User.class) ) return false;
         User user = (User) o;
         return getId() == user.getId() &&
                 getType().equals( user.getType() ) &&
