@@ -3,7 +3,11 @@ package by.javatr.project.utils;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileUtil {
@@ -11,9 +15,9 @@ public class FileUtil {
     private File file;
     private FileWriter fileWriter;
 
-    FileUtil(URI uri) {
+    public FileUtil(String fileName) {
         try {
-            file = new File( uri );
+            file = new File( fileName );
             fileWriter = new FileWriter( file, true );
         }
         catch (IOException e) {
@@ -34,11 +38,11 @@ public class FileUtil {
     }
 
 
-    public void updateFile(String[] records) {
+    public void updateFile(ArrayList<String> records) {
         clearFile();
         Stream.of( records ).forEach( str -> {
             try {
-                fileWriter.write( str );
+                fileWriter.write( str + System.lineSeparator() );
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -48,12 +52,25 @@ public class FileUtil {
 
     private void clearFile() {
         try {
-            file.delete();
-            file.createNewFile();
+            Files.delete( Paths.get( file.getPath() ) );
+            Files.createFile( Paths.get( file.getPath() ) );
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<String> getAllRecords() {
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            list = Files.lines( Paths.get( file.getPath() ),
+                    StandardCharsets.UTF_8 ).collect( Collectors.toCollection( ArrayList::new ) );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
+
     }
 
 }
