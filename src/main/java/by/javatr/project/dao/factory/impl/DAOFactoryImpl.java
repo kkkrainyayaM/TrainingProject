@@ -5,7 +5,7 @@ import by.javatr.project.dao.UserDAO;
 import by.javatr.project.dao.factory.DAOFactory;
 import by.javatr.project.dao.impl.FileTransactionDAO;
 import by.javatr.project.dao.impl.FileUserDAO;
-import by.javatr.project.exception.daoexception.IncorrectFileException;
+import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 
 public final class DAOFactoryImpl implements DAOFactory {
 

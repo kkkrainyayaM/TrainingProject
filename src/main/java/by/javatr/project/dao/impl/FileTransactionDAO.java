@@ -1,11 +1,11 @@
 package by.javatr.project.dao.impl;
 
 import by.javatr.project.dao.TransactionDAO;
-import by.javatr.project.entity.TransCategory;
-import by.javatr.project.entity.Transaction;
-import by.javatr.project.entity.User;
-import by.javatr.project.exception.daoexception.DAOException;
-import by.javatr.project.exception.daoexception.IncorrectFileException;
+import by.javatr.project.entities.TransCategory;
+import by.javatr.project.entities.Transaction;
+import by.javatr.project.entities.User;
+import by.javatr.project.exceptions.daoexception.DAOException;
+import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 import by.javatr.project.utils.FileUtil;
 
 import java.util.ArrayList;

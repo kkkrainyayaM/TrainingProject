@@ -1,7 +1,7 @@
 package by.javatr.project.utils;
 
-import by.javatr.project.exception.daoexception.DAOException;
-import by.javatr.project.exception.daoexception.IncorrectFileException;
+import by.javatr.project.exceptions.daoexception.DAOException;
+import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 
 import java.io.File;
 import java.io.FileWriter;

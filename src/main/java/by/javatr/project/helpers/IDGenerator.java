@@ -1,7 +1,7 @@
 package by.javatr.project.helpers;
 
 import by.javatr.project.dao.factory.impl.DAOFactoryImpl;
-import by.javatr.project.exception.daoexception.IncorrectFileException;
+import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 
 public final class IDGenerator {
 
