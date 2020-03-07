@@ -14,7 +14,7 @@ public interface ClientService {
 
     void register(User user) throws ServiceException;
 
-    ArrayList<User> getUsers();
+    ArrayList<User> getUsers() throws ServiceException;
 
     void deleteUser(int id) throws ServiceException;
 

@@ -1,6 +1,7 @@
 package by.javatr.project.entity;
 
 
+import by.javatr.project.exception.daoexception.IncorrectFileException;
 import by.javatr.project.helpers.IDGenerator;
 
 import java.util.Objects;
@@ -12,7 +13,7 @@ public class User {
     private String login;
     private String password;
 
-    public User(UserType type, String login, String password, String name) {
+    public User(UserType type, String login, String password, String name) throws IncorrectFileException {
         this.id = IDGenerator.getInstance().getIDUser();
         this.name = name;
         this.type = type;

@@ -1,5 +1,7 @@
 package by.javatr.project.view;
 
+import by.javatr.project.exception.viewexception.ViewException;
+
 import java.util.Scanner;
 
 public abstract class View {
@@ -10,7 +12,7 @@ public abstract class View {
 
     protected abstract String getMenuItems();
 
-    public void show() {
+    public void show() throws ViewException {
         System.out.println(getMenuItems());
 
     }

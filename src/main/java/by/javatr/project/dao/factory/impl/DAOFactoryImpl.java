@@ -5,6 +5,7 @@ import by.javatr.project.dao.UserDAO;
 import by.javatr.project.dao.factory.DAOFactory;
 import by.javatr.project.dao.impl.FileTransactionDAO;
 import by.javatr.project.dao.impl.FileUserDAO;
+import by.javatr.project.exception.daoexception.IncorrectFileException;
 
 public final class DAOFactoryImpl implements DAOFactory {
 
@@ -22,12 +23,12 @@ public final class DAOFactoryImpl implements DAOFactory {
     }
 
     @Override
-    public TransactionDAO getTransactionDAO() {
+    public TransactionDAO getTransactionDAO() throws IncorrectFileException {
         return new FileTransactionDAO();
     }
 
     @Override
-    public UserDAO getUserDAO() {
+    public UserDAO getUserDAO() throws IncorrectFileException {
         return new FileUserDAO();
     }
 }

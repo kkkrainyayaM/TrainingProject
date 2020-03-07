@@ -1,5 +1,6 @@
 package by.javatr.project.entity;
 
+import by.javatr.project.exception.daoexception.IncorrectFileException;
 import by.javatr.project.helpers.IDGenerator;
 
 import java.text.SimpleDateFormat;
@@ -13,7 +14,7 @@ public class Transaction {
     private int userId;
     private float sum;
 
-    public Transaction(TransCategory category, float sum) {
+    public Transaction(TransCategory category, float sum) throws IncorrectFileException {
         this.category = category;
         this.date = new SimpleDateFormat( "yyyy.MM.dd" ).format( new Date() );
         this.id = IDGenerator.getInstance().getIDTransaction();

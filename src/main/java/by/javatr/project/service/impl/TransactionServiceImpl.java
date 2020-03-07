@@ -22,8 +22,13 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ArrayList<Transaction> getTransactions() {
-        return DAOFactoryImpl.getInstance().getTransactionDAO().getTransactions();
+    public ArrayList<Transaction> getTransactions() throws ServiceException {
+        try {
+            return DAOFactoryImpl.getInstance().getTransactionDAO().getTransactions();
+        }
+        catch (IncorrectFileException e) {
+            throw new ServiceException( "Couldn't get transaction", e );
+        }
     }
 
     @Override
@@ -31,7 +36,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             return DAOFactoryImpl.getInstance().getTransactionDAO().findByUser( user );
         }
-        catch (DAOException e) {
+        catch (DAOException | IncorrectFileException e) {
             throw new ServiceException( "Couldn't get transaction of user with id=" + user.getId(), e );
         }
     }
@@ -41,7 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             DAOFactoryImpl.getInstance().getTransactionDAO().delete( id );
         }
-        catch (DAOException e) {
+        catch (DAOException | IncorrectFileException e) {
             throw new ServiceException( "Couldn't delete transaction with id=" + id, e );
         }
     }

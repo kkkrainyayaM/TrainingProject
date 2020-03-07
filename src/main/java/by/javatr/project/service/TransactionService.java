@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface TransactionService {
     void addTransaction(Transaction transaction) throws ServiceException;
 
-    ArrayList<Transaction> getTransactions();
+    ArrayList<Transaction> getTransactions() throws ServiceException;
 
     ArrayList<Transaction> getTransByUser(User user) throws ServiceException;
 
