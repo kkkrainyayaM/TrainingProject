@@ -11,7 +11,7 @@ public final class ServiceFactory {
     private final ClientService clientService = new ClientServiceImpl();
     private final TransactionService transactionService = new TransactionServiceImpl();
 
-    private ServiceFactory(){}
+    public ServiceFactory(){}
 
     public static ServiceFactory getInstance(){
         return instance;

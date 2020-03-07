@@ -1,5 +1,8 @@
 package by.javatr.project.utils;
 
+import by.javatr.project.exception.daoexception.DAOException;
+import by.javatr.project.exception.daoexception.IncorrectFileException;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,30 +18,32 @@ public class FileUtil {
     private File file;
     private FileWriter fileWriter;
 
-    public FileUtil(String fileName) {
+    public FileUtil(String fileName) throws IncorrectFileException {
         try {
             file = new File( fileName );
             fileWriter = new FileWriter( file, true );
         }
         catch (IOException e) {
-            e.printStackTrace();
+            throw new IncorrectFileException( "Incorrect filepath : " + fileName );
         }
     }
 
-    public void addRecord(String record) {
+    public void addRecord(String record) throws DAOException, IncorrectFileException {
+        if( record.equals( "" ) ) throw new DAOException( "Null record" );
         try {
             FileWriter fileWriter = new FileWriter( file, true );
-            fileWriter.write( record+"\n" );
+            fileWriter.write( record + "\n" );
             fileWriter.flush();
             fileWriter.close();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            throw new IncorrectFileException( "Incorrect filepath : " + file.toString() );
         }
     }
 
 
-    public void updateFile(ArrayList<String> records) {
+    public void updateFile(ArrayList<String> records) throws DAOException {
+        if( records == null ) throw new DAOException( "Null records" );
         clearFile();
         Stream.of( records ).forEach( str -> {
             try {

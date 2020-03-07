@@ -4,7 +4,8 @@ import by.javatr.project.dao.TransactionDAO;
 import by.javatr.project.entity.TransCategory;
 import by.javatr.project.entity.Transaction;
 import by.javatr.project.entity.User;
-import by.javatr.project.exception.DAOExeption;
+import by.javatr.project.exception.daoexception.DAOException;
+import by.javatr.project.exception.daoexception.IncorrectFileException;
 import by.javatr.project.utils.FileUtil;
 
 import java.util.ArrayList;
@@ -24,13 +25,13 @@ public class FileTransactionDAO implements TransactionDAO {
     private FileUtil fileUtil = new FileUtil( FILE_NAME );
     private ArrayList<Transaction> transactions;
 
-    public FileTransactionDAO() {
+    public FileTransactionDAO() throws IncorrectFileException {
         transactions = getAll();
     }
 
     @Override
-    public void add(Transaction transaction) throws DAOExeption {
-        if( transaction == null ) throw new DAOExeption( "Null transaction" );
+    public void add(Transaction transaction) throws IncorrectFileException, DAOException {
+        if( transaction == null ) throw new DAOException( "Null transaction" );
         fileUtil.addRecord( transaction.getId() + " " + transaction.getCategory()
                 + " " + transaction.getDate() + " " + transaction.getUserId()
                 + " " + transaction.getSum() );
@@ -38,16 +39,16 @@ public class FileTransactionDAO implements TransactionDAO {
     }
 
     @Override
-    public ArrayList<Transaction> findByUser(User user) throws DAOExeption {
-        if( user == null ) throw new DAOExeption( "Null user" );
+    public ArrayList<Transaction> findByUser(User user) throws DAOException {
+        if( user == null ) throw new DAOException( "Null user" );
         return transactions.stream().filter( x -> user.getId() == x.getUserId() )
                 .collect( Collectors.toCollection( ArrayList::new ) );
 
     }
 
     @Override
-    public void delete(int id) throws DAOExeption {
-        if( id < 1 ) throw new DAOExeption( "Incorrect id" );
+    public void delete(int id) throws DAOException {
+        if( id < 1 ) throw new DAOException( "Incorrect id" );
         transactions.remove( transactions.stream().findFirst().filter( x -> x.getId() == id ).get() );
         fileUtil.updateFile( transactions.stream().map( this::buildString )
                 .collect( Collectors.toCollection( ArrayList::new ) ) );
