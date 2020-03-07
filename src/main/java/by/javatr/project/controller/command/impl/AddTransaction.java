@@ -18,14 +18,9 @@ public class AddTransaction implements Command {
         Transaction transaction = null;
         try {
             transaction = new Transaction( viewAddTrans.getCategory(), viewAddTrans.getSum() );
-        }
-        catch (IncorrectFileException e) {
-            throw new ControllerException( "Couldn't add transaction", e );
-        }
-        try {
             transactionService.addTransaction( transaction );
         }
-        catch (ServiceException e) {
+        catch (ServiceException | IncorrectFileException e) {
             throw new ControllerException( "Couldn't add transaction", e );
         }
         return "Транзакция добавлена";
