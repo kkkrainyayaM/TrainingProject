@@ -9,7 +9,7 @@ import by.javatr.project.service.TransactionService;
 import by.javatr.project.service.factory.ServiceFactory;
 import by.javatr.project.view.ViewAddTrans;
 
-public class CommandAddTransaction implements Command {
+public class AddTransaction implements Command {
     @Override
     public String execute(String request) throws ControllerException {
         TransactionService transactionService = ServiceFactory.getInstance().getTransactionService();

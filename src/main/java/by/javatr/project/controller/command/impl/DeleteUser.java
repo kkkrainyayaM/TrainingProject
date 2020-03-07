@@ -6,12 +6,12 @@ import by.javatr.project.exception.serviceexception.ServiceException;
 import by.javatr.project.service.factory.ServiceFactory;
 import by.javatr.project.view.ViewDelete;
 
-public class CommandDeleteUser implements Command {
+public class DeleteUser implements Command {
     @Override
     public String execute(String request) throws ControllerException {
         int id;
-        CommandGetUsers commandGetUsers = new CommandGetUsers();
-        commandGetUsers.execute( request );
+        GetUsers getUsers = new GetUsers();
+        getUsers.execute( request );
         ViewDelete viewDelete = new ViewDelete();
         viewDelete.show();
         id = viewDelete.getId();

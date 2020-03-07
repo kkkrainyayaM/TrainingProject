@@ -11,7 +11,7 @@ import by.javatr.project.view.ViewUsers;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class CommandGetUsers implements Command {
+public class GetUsers implements Command {
     @Override
     public String execute(String request) throws ControllerException {
         ViewUsers view = new ViewUsers();

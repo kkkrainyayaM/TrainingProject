@@ -21,7 +21,7 @@ public class FileTransactionDAO implements TransactionDAO {
     private static final int DATE_INDEX = 2;
     private static final int USER_ID_INDEX = 3;
     private static final int SUM_INDEX = 4;
-    private static final String FILE_NAME = "C:/Users/rizhi/Documents/Training/FinancialAccountingApp/src/main/resources/transaction.txt";
+    private static final String FILE_NAME = "C:/Users/rizhi/Documents/Training/FinancialAccountingApp/src/main/resources/transactions.txt";
     private FileUtil fileUtil = new FileUtil( FILE_NAME );
     private ArrayList<Transaction> transactions;
 

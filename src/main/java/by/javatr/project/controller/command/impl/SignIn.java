@@ -14,7 +14,7 @@ import by.javatr.project.view.ViewMenuAdmin;
 import by.javatr.project.view.ViewMenuUser;
 import by.javatr.project.view.ViewSignIn;
 
-public class CommandSignIn implements Command {
+public class SignIn implements Command {
     @Override
     public String execute(String request) throws ControllerException {
         ViewSignIn view = new ViewSignIn();

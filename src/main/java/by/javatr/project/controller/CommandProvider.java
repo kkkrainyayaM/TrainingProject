@@ -10,14 +10,14 @@ final class CommandProvider {
     private final Map<CommandName, Command> repository = new HashMap<>();
 
     CommandProvider() {
-        repository.put( CommandName.SIGN_IN, new CommandSignIn() );
-        repository.put( CommandName.SIGN_UP, new CommandSignUp() );
-        repository.put( CommandName.ADD_TRANSACTION, new CommandAddTransaction() );
-        repository.put( CommandName.DELETE_TRANSACTION, new CommandDeleteTransaction() );
-        repository.put( CommandName.DELETE_USER, new CommandDeleteUser() );
-        repository.put( CommandName.GET_TRANSACTIONS, new CommandGetTransactions());
-        repository.put( CommandName.GET_USERS, new CommandGetUsers() );
-        repository.put( CommandName.TRANSACTIONS_BY_USER, new CommandGetUserTrans() );
+        repository.put( CommandName.SIGN_IN, new SignIn() );
+        repository.put( CommandName.SIGN_UP, new SignUp() );
+        repository.put( CommandName.ADD_TRANSACTION, new AddTransaction() );
+        repository.put( CommandName.DELETE_TRANSACTION, new DeleteTransaction() );
+        repository.put( CommandName.DELETE_USER, new DeleteUser() );
+        repository.put( CommandName.GET_TRANSACTIONS, new GetTransactions());
+        repository.put( CommandName.GET_USERS, new GetUsers() );
+        repository.put( CommandName.TRANSACTIONS_BY_USER, new GetUserTrans() );
     }
 
     Command getCommand(String name) {

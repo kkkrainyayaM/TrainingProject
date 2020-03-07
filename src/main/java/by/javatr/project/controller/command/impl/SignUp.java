@@ -11,7 +11,7 @@ import by.javatr.project.service.factory.ServiceFactory;
 import by.javatr.project.view.ViewMenuUser;
 import by.javatr.project.view.ViewSignUp;
 
-public class CommandSignUp implements Command {
+public class SignUp implements Command {
     @Override
     public String execute(String request) throws ControllerException {
         String response;

@@ -8,17 +8,17 @@ import by.javatr.project.exception.serviceexception.ServiceException;
 import by.javatr.project.service.factory.ServiceFactory;
 import by.javatr.project.view.ViewDelete;
 
-public class CommandDeleteTransaction implements Command {
+public class DeleteTransaction implements Command {
     @Override
     public String execute(String request) throws ControllerException {
         int id;
         if( Session.getInstance().getUser().getType() == UserType.ADMIN ) {
-            CommandGetTransactions commandGetTransactions = new CommandGetTransactions();
-            commandGetTransactions.execute( request );
+            GetTransactions getTransactions = new GetTransactions();
+            getTransactions.execute( request );
         }
         else {
-            CommandGetUserTrans commandGetUserTrans = new CommandGetUserTrans();
-            commandGetUserTrans.execute( request );
+            GetUserTrans getUserTrans = new GetUserTrans();
+            getUserTrans.execute( request );
         }
         ViewDelete viewDelete = new ViewDelete();
         viewDelete.show();

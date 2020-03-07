@@ -20,7 +20,7 @@ public class FileUserDAO implements UserDAO {
     private static final int PASSWORD_INDEX = 3;
     private static final int NAME_INDEX = 4;
     private static final String FILE_NAME = "C:/Users/rizhi/Documents/" +
-            "Training/FinancialAccountingApp/src/main/resources/user.txt";
+            "Training/FinancialAccountingApp/src/main/resources/users.txt";
     private FileUtil fileUtil = new FileUtil( FILE_NAME );
     private ArrayList<User> users;
 
