@@ -3,6 +3,7 @@ package by.javatr.project.dao.impl;
 import by.javatr.project.dao.UserDAO;
 import by.javatr.project.entity.User;
 import by.javatr.project.entity.UserType;
+import by.javatr.project.exception.DAOExeption;
 import by.javatr.project.utils.FileUtil;
 
 import java.util.ArrayList;
@@ -28,14 +29,16 @@ public class FileUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean signIn(String login, String password) {
+    public boolean signIn(String login, String password) throws DAOExeption {
+        if( login.equals( "" ) || password.equals( "" ) ) throw new DAOExeption( "Null credentials" );
         return users.stream().anyMatch( x -> x.getLogin()
                 .equals( login ) && x.getPassword()
                 .equals( password ) );
     }
 
     @Override
-    public void signUp(User user) {
+    public void signUp(User user) throws DAOExeption {
+        if( user == null ) throw new DAOExeption( "Null user" );
         fileUtil.addRecord( user.getId() + " " + user.getType() + " " + user.getLogin()
                 + " " + user.getPassword() + " " + user.getName() );
         users.add( user );
@@ -43,7 +46,8 @@ public class FileUserDAO implements UserDAO {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws DAOExeption {
+        if( id < 1 ) throw new DAOExeption( "incorrect id" );
         users.remove( users.stream().findFirst().filter( x -> x.getId() == id ).get() );
         fileUtil.updateFile( users.stream().map( this::buildString )
                 .collect( Collectors.toCollection( ArrayList::new ) ) );
@@ -55,7 +59,8 @@ public class FileUserDAO implements UserDAO {
     }
 
     @Override
-    public User getUser(String login, String password) {
+    public User getUser(String login, String password) throws DAOExeption {
+        if( login.equals( "" ) || password.equals( "" ) ) throw new DAOExeption( "Null credentials" );
         return users.stream().filter( x -> x.getLogin()
                 .equals( login ) && x.getPassword()
                 .equals( password ) ).findFirst().get();
@@ -85,6 +90,6 @@ public class FileUserDAO implements UserDAO {
 
     @Override
     public int getLastId() {
-        return users.get(users.size()-1).getId();
+        return users.get( users.size() - 1 ).getId();
     }
 }

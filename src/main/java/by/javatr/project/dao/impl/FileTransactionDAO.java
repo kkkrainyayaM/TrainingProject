@@ -4,6 +4,7 @@ import by.javatr.project.dao.TransactionDAO;
 import by.javatr.project.entity.TransCategory;
 import by.javatr.project.entity.Transaction;
 import by.javatr.project.entity.User;
+import by.javatr.project.exception.DAOExeption;
 import by.javatr.project.utils.FileUtil;
 
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ public class FileTransactionDAO implements TransactionDAO {
     }
 
     @Override
-    public void add(Transaction transaction) {
+    public void add(Transaction transaction) throws DAOExeption {
+        if( transaction == null ) throw new DAOExeption( "Null transaction" );
         fileUtil.addRecord( transaction.getId() + " " + transaction.getCategory()
                 + " " + transaction.getDate() + " " + transaction.getUserId()
                 + " " + transaction.getSum() );
@@ -36,14 +38,16 @@ public class FileTransactionDAO implements TransactionDAO {
     }
 
     @Override
-    public ArrayList<Transaction> findByUser(User user) {
+    public ArrayList<Transaction> findByUser(User user) throws DAOExeption {
+        if( user == null ) throw new DAOExeption( "Null user" );
         return transactions.stream().filter( x -> user.getId() == x.getUserId() )
                 .collect( Collectors.toCollection( ArrayList::new ) );
 
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws DAOExeption {
+        if( id < 1 ) throw new DAOExeption( "Incorrect id" );
         transactions.remove( transactions.stream().findFirst().filter( x -> x.getId() == id ).get() );
         fileUtil.updateFile( transactions.stream().map( this::buildString )
                 .collect( Collectors.toCollection( ArrayList::new ) ) );
