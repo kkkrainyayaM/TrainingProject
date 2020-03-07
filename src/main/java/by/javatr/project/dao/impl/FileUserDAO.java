@@ -43,8 +43,8 @@ public class FileUserDAO implements UserDAO {
     }
 
     @Override
-    public void delete(User user) {
-        users.remove( users.stream().findFirst().filter( x -> user.getId() == x.getId() ).get() );
+    public void delete(int id) {
+        users.remove( users.stream().findFirst().filter( x -> x.getId() == id ).get() );
         fileUtil.updateFile( users.stream().map( this::buildString )
                 .collect( Collectors.toCollection( ArrayList::new ) ) );
     }
@@ -81,5 +81,10 @@ public class FileUserDAO implements UserDAO {
     private String buildString(User user) {
         return user.getId() + " " + user.getType() + " " + user.getLogin()
                 + " " + user.getPassword() + " " + user.getName();
+    }
+
+    @Override
+    public int getLastId() {
+        return users.get(users.size()-1).getId();
     }
 }

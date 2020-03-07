@@ -25,9 +25,9 @@ public interface TransactionDAO {
     /**
      * Delete transaction from file
      *
-     * @param transaction - Transaction
+     * @param id - Transaction id
      */
-    void delete(Transaction transaction);
+    void delete(int id);
 
     /**
      * Get all transaction
@@ -36,4 +36,5 @@ public interface TransactionDAO {
      */
     ArrayList<Transaction> getTransactions();
 
+    int getLastId();
 }

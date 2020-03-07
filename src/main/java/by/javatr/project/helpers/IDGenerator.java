@@ -1,4 +1,6 @@
-package by.javatr.project.idgenerator;
+package by.javatr.project.helpers;
+
+import by.javatr.project.dao.factory.impl.DAOFactoryImpl;
 
 public final class IDGenerator {
 
@@ -7,7 +9,8 @@ public final class IDGenerator {
     private static IDGenerator instance;
 
     private IDGenerator() {
-        //TODO idgenerator
+        lastIDTransaction = DAOFactoryImpl.getInstance().getTransactionDAO().getLastId();
+        lastIDUser = DAOFactoryImpl.getInstance().getUserDAO().getLastId();
     }
 
     public static synchronized IDGenerator getInstance() {

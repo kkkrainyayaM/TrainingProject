@@ -43,8 +43,8 @@ public class FileTransactionDAO implements TransactionDAO {
     }
 
     @Override
-    public void delete(Transaction transaction) {
-        transactions.remove( transactions.stream().findFirst().filter( x -> transaction.getId() == x.getId() ).get() );
+    public void delete(int id) {
+        transactions.remove( transactions.stream().findFirst().filter( x -> x.getId() == id ).get() );
         fileUtil.updateFile( transactions.stream().map( this::buildString )
                 .collect( Collectors.toCollection( ArrayList::new ) ) );
 
@@ -64,17 +64,22 @@ public class FileTransactionDAO implements TransactionDAO {
 
 
     private Transaction buildTransaction(String transRecord) {
-        String[] userFields = transRecord.split( SPACE );
-        return new Transaction( Integer.valueOf( userFields[ID_INDEX] ),
-                TransCategory.valueOf( userFields[CATEGORY_INDEX] ),
-                userFields[DATE_INDEX],
-                Integer.valueOf( userFields[USER_ID_INDEX] ),
-                Float.valueOf( userFields[SUM_INDEX] ) );
+        String[] transFields = transRecord.split( SPACE );
+        return new Transaction( Integer.valueOf( transFields[ID_INDEX] ),
+                TransCategory.valueOf( transFields[CATEGORY_INDEX] ),
+                transFields[DATE_INDEX],
+                Integer.valueOf( transFields[USER_ID_INDEX] ),
+                Float.valueOf( transFields[SUM_INDEX] ) );
     }
 
     private String buildString(Transaction transaction) {
         return transaction.getId() + " " + transaction.getCategory()
                 + " " + transaction.getDate() + " " + transaction.getUserId()
                 + " " + transaction.getSum();
+    }
+
+    public int getLastId() {
+        if( transactions.size() == 0 ) return 0;
+        else return transactions.get( transactions.size() - 1 ).getId();
     }
 }

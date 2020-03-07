@@ -1,6 +1,7 @@
-package by.javatr.project.bean;
+package by.javatr.project.entity;
 
-import by.javatr.project.idgenerator.IDGenerator;
+
+import by.javatr.project.helpers.IDGenerator;
 
 import java.util.Objects;
 
@@ -11,10 +12,18 @@ public class User {
     private String login;
     private String password;
 
-    public User(UserType type,String name, String login, String password) {
+    public User(UserType type, String login, String password, String name) {
         this.id = IDGenerator.getInstance().getIDUser();
         this.name = name;
         this.type = type;
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(int id, UserType type, String login, String password, String name) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
         this.login = login;
         this.password = password;
     }
@@ -69,11 +78,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", type=" + type +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
+        return "Пользователь{" +
+                "ID=" + id +
+                ", логин='" + login + '\'' +
+                ", имя='" + name + '\'' +
                 '}';
     }
 

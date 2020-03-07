@@ -28,7 +28,7 @@ public class FileUtil {
     public void addRecord(String record) {
         try {
             FileWriter fileWriter = new FileWriter( file, true );
-            fileWriter.write( record );
+            fileWriter.write( record+"\n" );
             fileWriter.flush();
             fileWriter.close();
         }

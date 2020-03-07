@@ -1,8 +1,10 @@
-package by.javatr.project.bean;
+package by.javatr.project.entity;
+
+import by.javatr.project.entity.User;
 
 import java.util.ArrayList;
 
-public class Session {
+public final class Session {
     private User user;
     private ArrayList<Transaction> transactions = new ArrayList<>();
     private static Session instance;

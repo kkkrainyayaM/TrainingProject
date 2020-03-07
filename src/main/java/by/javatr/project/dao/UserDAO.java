@@ -25,9 +25,9 @@ public interface UserDAO {
     /**
      * Delete user record from file
      *
-     * @param user - User
+     * @param id - User id
      */
-    void delete(User user);
+    void delete(int id);
 
     /**
      * Get all users
@@ -44,4 +44,6 @@ public interface UserDAO {
      * @return User
      */
     User getUser(String login, String password);
+
+    int getLastId();
 }
