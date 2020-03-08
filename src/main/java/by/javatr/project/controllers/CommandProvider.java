@@ -18,6 +18,8 @@ final class CommandProvider {
         repository.put( Commands.GET_TRANSACTIONS, new GetTransactions());
         repository.put( Commands.GET_USERS, new GetUsers() );
         repository.put( Commands.TRANSACTIONS_BY_USER, new GetUserTrans() );
+        repository.put( Commands.SHOW_ADMIN_MENU, new ShowAdminMenu() );
+        repository.put( Commands.SHOW_USER_MENU, new ShowUserMenu() );
     }
 
     Command getCommand(String name) {

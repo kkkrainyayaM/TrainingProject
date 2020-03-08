@@ -40,7 +40,7 @@ public class FileUserDAO implements UserDAO {
     @Override
     public void signUp(User user) throws IncorrectFileException, DAOException {
         if( user == null ) throw new DAOException( "Null user" );
-        FileUtil.addRecord( user.getId() + " " + user.getType() + " " + user.getLogin()
+        FileUtil.addRecord( getNewId() + " " + user.getType() + " " + user.getLogin()
                 + " " + user.getPassword() + " " + user.getName(), FILE_NAME );
         users.add( user );
 
@@ -49,7 +49,7 @@ public class FileUserDAO implements UserDAO {
     @Override
     public void delete(int id) throws DAOException, IncorrectFileException {
         if( id < 1 ) throw new DAOException( "incorrect id" );
-        users.remove( users.stream().findFirst().filter( x -> x.getId() == id ).get() );
+        users.remove( users.stream().filter( x -> x.getId() == id ).findFirst().get() );
         FileUtil.updateFile( users.stream().map( this::buildString )
                 .collect( Collectors.toList() ), FILE_NAME );
     }
@@ -94,8 +94,8 @@ public class FileUserDAO implements UserDAO {
                 + " " + user.getPassword() + " " + user.getName();
     }
 
-    @Override
-    public int getLastId() {
-        return users.get( users.size() - 1 ).getId();
+
+    private int getNewId() {
+        return users.get( users.size() - 1 ).getId()+1;
     }
 }

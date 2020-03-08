@@ -17,7 +17,7 @@ public class TransactionServiceImpl implements TransactionService {
             DAOFactoryImpl.getInstance().getTransactionDAO().add( transaction );
         }
         catch (IncorrectFileException | DAOException e) {
-            throw new ServiceException( "Couldn't add transaction with id=" + transaction.getId(), e  );
+            throw new ServiceException( "Couldn't add transaction with id=" + transaction.getId(), e );
         }
     }
 
@@ -26,7 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             return DAOFactoryImpl.getInstance().getTransactionDAO().getTransactions();
         }
-        catch (IncorrectFileException e) {
+        catch (DAOException e) {
             throw new ServiceException( "Couldn't get transaction", e );
         }
     }
@@ -36,7 +36,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             return DAOFactoryImpl.getInstance().getTransactionDAO().findByUser( user );
         }
-        catch (DAOException | IncorrectFileException e) {
+        catch (DAOException e) {
             throw new ServiceException( "Couldn't get transaction of user with id=" + user.getId(), e );
         }
     }

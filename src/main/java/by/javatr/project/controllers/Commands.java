@@ -8,6 +8,8 @@ public enum Commands {
     TRANSACTIONS_BY_USER,
     DELETE_TRANSACTION,
     DELETE_USER,
-    GET_USERS
+    GET_USERS,
+    SHOW_USER_MENU,
+    SHOW_ADMIN_MENU
 
 }

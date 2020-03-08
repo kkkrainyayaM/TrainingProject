@@ -32,7 +32,7 @@ public class FileTransactionDAO implements TransactionDAO {
     @Override
     public void add(Transaction transaction) throws IncorrectFileException, DAOException {
         if( transaction == null ) throw new DAOException( "Null transaction" );
-        FileUtil.addRecord( transaction.getId() + " " + transaction.getCategory()
+        FileUtil.addRecord( getNewId() + " " + transaction.getCategory()
                 + " " + transaction.getDate() + " " + transaction.getUserId()
                 + " " + transaction.getSum(), FILE_NAME );
         transactions.add( transaction );
@@ -49,7 +49,7 @@ public class FileTransactionDAO implements TransactionDAO {
     @Override
     public void delete(int id) throws DAOException, IncorrectFileException {
         if( id < 1 ) throw new DAOException( "Incorrect id" );
-        transactions.remove( transactions.stream().findFirst().filter( x -> x.getId() == id ).get() );
+        transactions.remove( transactions.stream().filter( x -> x.getId() == id ).findFirst().get() );
         FileUtil.updateFile( transactions.stream().map( this::buildString )
                 .collect( Collectors.toList() ), FILE_NAME );
     }
@@ -91,8 +91,8 @@ public class FileTransactionDAO implements TransactionDAO {
         return stringBuilder.toString();
     }
 
-    public int getLastId() {
-        if( transactions.size() == 0 ) return 0;
-        else return transactions.get( transactions.size() - 1 ).getId();
-    }
+    private int getNewId() {
+        if( transactions.size() == 0 ) return 1;
+        else return transactions.get( transactions.size() - 1 ).getId()+1;
+   }
 }

@@ -37,6 +37,4 @@ public interface TransactionDAO {
      * @return - list of all transactions
      */
     List<Transaction> getTransactions();
-
-    int getLastId();
 }

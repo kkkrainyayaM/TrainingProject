@@ -7,41 +7,42 @@ import by.javatr.project.entities.UserType;
 import by.javatr.project.exceptions.controllerexception.ControllerException;
 import by.javatr.project.exceptions.daoexception.DAOException;
 import by.javatr.project.exceptions.serviceexception.ServiceException;
-import by.javatr.project.exceptions.viewexception.ViewException;
 import by.javatr.project.services.ClientService;
 import by.javatr.project.services.factory.ServiceFactory;
-import by.javatr.project.views.ViewMenuAdmin;
-import by.javatr.project.views.ViewMenuUser;
-import by.javatr.project.views.ViewSignIn;
+import by.javatr.project.views.*;
 
 public class SignIn implements Command {
+    private static ServiceFactory serviceFactory = ServiceFactory.getInstance();
+    private static ClientService clientService = serviceFactory.getClientService();
+    private static ViewSignIn viewSignIn = new ViewSignIn();
+
     @Override
-    public String execute(String request) throws ControllerException {
-        ViewSignIn view = new ViewSignIn();
-        view.show();
-        String response;
-        ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        ClientService clientService = serviceFactory.getClientService();
+    public View execute(String request) throws ControllerException {
+        View view = null;
+
+        viewSignIn.show();
+        String login = viewSignIn.getLogin();
+        String password = viewSignIn.getPassword();
+
         try {
-            if( clientService.authenticate( view.getLogin(), view.getPassword() ) ) {
-                response = "Вход выполнен";
-                User user = null;
-                user = clientService.getUser( view.getLogin(), view.getPassword() );
+            if( clientService.authenticate( login, password ) ) {
+                User user = clientService.getUser( login, password );
                 Session.getInstance().setUser( user );
                 if( Session.getInstance().getUser().getType() == UserType.ADMIN ) {
-                    ViewMenuAdmin viewMenuAdmin = new ViewMenuAdmin();
-                    viewMenuAdmin.show();
+                    view = new ViewMenuAdmin();
                 }
                 else {
-                    ViewMenuUser viewMenuUser = new ViewMenuUser();
-                    viewMenuUser.show();
+                    view = new ViewMenuUser();
                 }
             }
-            else response = "Ошибка ввода";
+            else {
+                viewSignIn.showError();
+                view = new ViewEntry();
+            }
+            return view;
         }
-        catch (DAOException | ServiceException | ViewException e) {
+        catch (DAOException | ServiceException e) {
             throw new ControllerException( "Couldn't sign in user", e );
         }
-        return response;
     }
 }

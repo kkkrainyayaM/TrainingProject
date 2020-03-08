@@ -8,10 +8,14 @@ public class ViewSignIn {
     private String password;
 
     public void show() {
-        System.out.println("Логин:" );
+        System.out.println( "Логин:" );
         login = scanner.nextLine();
-        System.out.println( "Пароль:"  );
+        System.out.println( "Пароль:" );
         password = scanner.nextLine();
+    }
+
+    public void showError() {
+        System.out.println( "Такй пользователь не найден!" );
     }
 
     public String getLogin() {

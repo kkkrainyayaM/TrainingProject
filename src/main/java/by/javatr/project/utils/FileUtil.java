@@ -15,22 +15,19 @@ import java.util.stream.Stream;
 
 public class FileUtil {
 
-    private static File file;
-    private static FileWriter fileWriter;
-
     private FileUtil() {
     }
 
     public static void addRecord(String record, String fileName) throws DAOException, IncorrectFileException {
         try {
-            file = new File( fileName );
-            fileWriter = new FileWriter( file, true );
             if( record.equals( "" ) ) throw new DAOException( "Null record" );
-
+            File file = new File( fileName );
+            System.out.println( "открыт" );
             FileWriter fileWriter = new FileWriter( file, true );
             fileWriter.write( record + "\n" );
             fileWriter.flush();
             fileWriter.close();
+            System.out.println( "закрыт" );
         }
         catch (IOException e) {
             throw new IncorrectFileException( "Incorrect filepath : " + fileName );
@@ -40,32 +37,43 @@ public class FileUtil {
 
     public static void updateFile(List<String> records, String fileName) throws DAOException, IncorrectFileException {
         try {
-            file = new File( fileName );
-            fileWriter = new FileWriter( file, true );
+            File file = new File( fileName );
+            System.out.println( "открыт" );
+            FileWriter fileWriter = new FileWriter( file, true );
             if( records == null ) throw new DAOException( "Null records" );
-            clearFile( fileName );
+            clearFile( file );
             Stream.of( records ).forEach( str -> {
                 try {
                     fileWriter.write( str + System.lineSeparator() );
+                    fileWriter.flush();
                 }
                 catch (IOException e) {
                     e.printStackTrace();
                 }
             } );
+            fileWriter.close();
+            System.out.println( "закрыт" );
         }
         catch (IOException e) {
             throw new IncorrectFileException( "Incorrect filepath : " + fileName );
         }
     }
 
-    private static void clearFile(String fileName) throws IncorrectFileException {
+    private static void clearFile(File file) throws IncorrectFileException {
         try {
-            file = new File( fileName );
-            Files.delete( Paths.get( file.getPath() ) );
-            Files.createFile( Paths.get( file.getPath() ) );
+            if(file.delete())
+            {
+                System.out.println("File deleted successfully");
+            }
+            else
+            {
+                System.out.println("Failed to delete the file");
+            }
+            //Files.delete( file.toPath() );
+            Files.createFile( file.toPath() );
         }
         catch (IOException e) {
-            throw new IncorrectFileException( "Incorrect filepath : " + fileName );
+            throw new IncorrectFileException( "Incorrect filepath : " + file.getAbsolutePath() );
         }
     }
 
@@ -74,6 +82,7 @@ public class FileUtil {
             throw new DAOException( "Null filename" );
         }
         else {
+            File file = new File( fileName );
             return Files.lines( Paths.get( file.getPath() ),
                     StandardCharsets.UTF_8 ).collect( Collectors.toList() );
         }

@@ -25,6 +25,7 @@ public class ViewMenuUser extends View {
             }
             case 4: {
                 selectedCommand = "exit";
+                Main.ACTIVE_VIEW = null;
                 break;
             }
             default: {
@@ -35,17 +36,17 @@ public class ViewMenuUser extends View {
     }
 
     public void show() throws ViewException {
-        System.out.println( getMenuItems() );
-        Scanner scanner = new Scanner( System.in );
-        Controller controller = new Controller();
-        String command = getCommand( scanner.nextInt() );
         try {
-            controller.executeTask( command );
+            System.out.println( getMenuItems() );
+            Scanner scanner = new Scanner( System.in );
+            String command = getCommand( scanner.nextInt() );
+            if( !command.equals( "exit" ) ) {
+                Controller.getInstance().executeTask( command );
+            }
         }
         catch (ControllerException e) {
             throw new ViewException( "Error in execution of task", e );
         }
-        //System.out.println( controllers.executeTask( commands ) );
     }
 
 

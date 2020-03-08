@@ -1,6 +1,7 @@
 package by.javatr.project.controllers.commands;
 
 import by.javatr.project.exceptions.controllerexception.ControllerException;
+import by.javatr.project.views.View;
 
 public interface Command {
     /**
@@ -8,6 +9,6 @@ public interface Command {
      * @return result of execution
      * @throws ControllerException
      */
-    String execute(String request) throws ControllerException;
+    View execute(String request) throws ControllerException;
 
 }

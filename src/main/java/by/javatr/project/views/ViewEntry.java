@@ -7,6 +7,9 @@ import by.javatr.project.exceptions.viewexception.ViewException;
 import java.util.Scanner;
 
 public class ViewEntry extends View {
+
+    private static Scanner scanner = new Scanner( System.in );
+
     @Override
     protected String getCommand(int selectedOperation) {
         String selectedCommand = null;
@@ -21,6 +24,7 @@ public class ViewEntry extends View {
             }
             case 3: {
                 selectedCommand = "exit";
+                Main.ACTIVE_VIEW = null;
                 break;
             }
             default: {
@@ -31,13 +35,12 @@ public class ViewEntry extends View {
     }
 
     public void show() throws ViewException {
-        System.out.println( getMenuItems() );
-        Scanner scanner = new Scanner( System.in );
-        Controller controller = new Controller();
-        String command = getCommand( scanner.nextInt() );
-        //System.out.println( controllers.executeTask( commands ) );
         try {
-            controller.executeTask( command );
+            System.out.println( getMenuItems() );
+            String command = getCommand( scanner.nextInt() );
+            if( !command.equals( "exit" ) ) {
+                Main.ACTIVE_VIEW = Controller.getInstance().executeTask( command );
+            }
         }
         catch (ControllerException e) {
             throw new ViewException( "Error in execution of task", e );

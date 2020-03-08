@@ -1,8 +1,5 @@
 package by.javatr.project.entities;
 
-import by.javatr.project.exceptions.daoexception.IncorrectFileException;
-import by.javatr.project.helpers.IDGenerator;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -15,10 +12,9 @@ public class Transaction {
     private int userId;
     private float sum;
 
-    public Transaction(TransCategory category, float sum) throws IncorrectFileException {
+    public Transaction(TransCategory category, float sum) {
         this.category = category;
         this.date = dateFormat.format( new Date() );
-        this.id = IDGenerator.getInstance().getIDTransaction();
         this.userId = Session.getInstance().getUser().getId();
         this.sum = sum;
     }
@@ -84,7 +80,7 @@ public class Transaction {
     public String toString() {
         return "Транзакция{" +
                 ", ID=" + id +
-                "категория=" + category +
+                ", категория=" + category +
                 ", дата=" + date +
                 ", ID пользователя=" + userId +
                 ", сумма=" + sum + "б.р." +

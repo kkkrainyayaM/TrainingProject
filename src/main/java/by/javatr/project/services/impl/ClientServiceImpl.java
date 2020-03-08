@@ -17,7 +17,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             result = DAOFactoryImpl.getInstance().getUserDAO().signIn( login, password );
         }
-        catch (DAOException | IncorrectFileException e) {
+        catch (DAOException e) {
             throw new ServiceException( "Null credentials", e );
         }
         return result;
@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             return DAOFactoryImpl.getInstance().getUserDAO().getUser( login, password );
         }
-        catch (DAOException | IncorrectFileException e) {
+        catch (DAOException e) {
             throw new ServiceException( "Null credentials", e );
         }
     }
@@ -48,7 +48,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             return DAOFactoryImpl.getInstance().getUserDAO().getUsers();
         }
-        catch (IncorrectFileException e) {
+        catch (DAOException e) {
             throw new ServiceException( "Error in getting users", e );
         }
     }

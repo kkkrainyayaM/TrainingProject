@@ -2,7 +2,6 @@ package by.javatr.project.views;
 
 import by.javatr.project.entities.User;
 import by.javatr.project.entities.UserType;
-import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 
 import java.util.Scanner;
 
@@ -21,7 +20,7 @@ public class ViewSignUp {
         name = scanner.nextLine();
     }
 
-    public User getUser() throws IncorrectFileException {
+    public User getUser(){
         return new User( UserType.CLIENT, login, password, name );
     }
 }

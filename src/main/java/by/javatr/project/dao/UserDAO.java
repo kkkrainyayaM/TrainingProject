@@ -46,6 +46,4 @@ public interface UserDAO {
      * @return User
      */
     User getUser(String login, String password) throws DAOException;
-
-    int getLastId();
 }
