@@ -22,6 +22,5 @@ public final class Controller {
     public View executeTask(String request) throws ControllerException {
         Command executionCommand = provider.getCommand( request );
         return executionCommand.execute( request );
-
     }
 }

@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FileUtil {
 
@@ -21,13 +20,10 @@ public class FileUtil {
     public static void addRecord(String record, String fileName) throws DAOException, IncorrectFileException {
         try {
             if( record.equals( "" ) ) throw new DAOException( "Null record" );
-            File file = new File( fileName );
-            System.out.println( "открыт" );
-            FileWriter fileWriter = new FileWriter( file, true );
+            FileWriter fileWriter = new FileWriter( new File( fileName ), true );
             fileWriter.write( record + "\n" );
             fileWriter.flush();
             fileWriter.close();
-            System.out.println( "закрыт" );
         }
         catch (IOException e) {
             throw new IncorrectFileException( "Incorrect filepath : " + fileName );
@@ -37,22 +33,22 @@ public class FileUtil {
 
     public static void updateFile(List<String> records, String fileName) throws DAOException, IncorrectFileException {
         try {
-            File file = new File( fileName );
-            System.out.println( "открыт" );
-            FileWriter fileWriter = new FileWriter( file, true );
             if( records == null ) throw new DAOException( "Null records" );
-            clearFile( file );
-            Stream.of( records ).forEach( str -> {
+            clearFile( new File( fileName ) );
+            FileWriter fileWriter = new FileWriter( new File( fileName ), true );
+            /*Stream.of( records ).forEach( str -> {
                 try {
-                    fileWriter.write( str + System.lineSeparator() );
+                    fileWriter.write( str + "\n" );
                     fileWriter.flush();
                 }
                 catch (IOException e) {
                     e.printStackTrace();
                 }
-            } );
+            } );*/
+            for(int i=0; i < records.size(); i++){
+                addRecord( records.get( i ),fileName );
+            }
             fileWriter.close();
-            System.out.println( "закрыт" );
         }
         catch (IOException e) {
             throw new IncorrectFileException( "Incorrect filepath : " + fileName );
@@ -61,15 +57,7 @@ public class FileUtil {
 
     private static void clearFile(File file) throws IncorrectFileException {
         try {
-            if(file.delete())
-            {
-                System.out.println("File deleted successfully");
-            }
-            else
-            {
-                System.out.println("Failed to delete the file");
-            }
-            //Files.delete( file.toPath() );
+            Files.delete( file.toPath() );
             Files.createFile( file.toPath() );
         }
         catch (IOException e) {

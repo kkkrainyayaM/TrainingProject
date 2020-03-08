@@ -1,3 +1,2 @@
 1 ADMIN admin 8442 Admin
 2 CLIENT mary 1234 maria
-3 CLIENT login password qwer
