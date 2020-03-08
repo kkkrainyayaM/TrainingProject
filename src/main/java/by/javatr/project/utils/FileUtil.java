@@ -9,72 +9,74 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileUtil {
 
-    private File file;
-    private FileWriter fileWriter;
+    private static File file;
+    private static FileWriter fileWriter;
 
-    public FileUtil(String fileName) throws IncorrectFileException {
+    private FileUtil() {
+    }
+
+    public static void addRecord(String record, String fileName) throws DAOException, IncorrectFileException {
         try {
             file = new File( fileName );
             fileWriter = new FileWriter( file, true );
-        }
-        catch (IOException e) {
-            throw new IncorrectFileException( "Incorrect filepath : " + fileName );
-        }
-    }
+            if( record.equals( "" ) ) throw new DAOException( "Null record" );
 
-    public void addRecord(String record) throws DAOException, IncorrectFileException {
-        if( record.equals( "" ) ) throw new DAOException( "Null record" );
-        try {
             FileWriter fileWriter = new FileWriter( file, true );
             fileWriter.write( record + "\n" );
             fileWriter.flush();
             fileWriter.close();
         }
         catch (IOException e) {
-            throw new IncorrectFileException( "Incorrect filepath : " + file.toString() );
+            throw new IncorrectFileException( "Incorrect filepath : " + fileName );
         }
     }
 
 
-    public void updateFile(ArrayList<String> records) throws DAOException {
-        if( records == null ) throw new DAOException( "Null records" );
-        clearFile();
-        Stream.of( records ).forEach( str -> {
-            try {
-                fileWriter.write( str + System.lineSeparator() );
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        } );
+    public static void updateFile(List<String> records, String fileName) throws DAOException, IncorrectFileException {
+        try {
+            file = new File( fileName );
+            fileWriter = new FileWriter( file, true );
+            if( records == null ) throw new DAOException( "Null records" );
+            clearFile( fileName );
+            Stream.of( records ).forEach( str -> {
+                try {
+                    fileWriter.write( str + System.lineSeparator() );
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } );
+        }
+        catch (IOException e) {
+            throw new IncorrectFileException( "Incorrect filepath : " + fileName );
+        }
     }
 
-    private void clearFile() {
+    private static void clearFile(String fileName) throws IncorrectFileException {
         try {
+            file = new File( fileName );
             Files.delete( Paths.get( file.getPath() ) );
             Files.createFile( Paths.get( file.getPath() ) );
         }
         catch (IOException e) {
-            e.printStackTrace();
+            throw new IncorrectFileException( "Incorrect filepath : " + fileName );
         }
     }
 
-    public ArrayList<String> getAllRecords() {
-        ArrayList<String> list = new ArrayList<>();
-        try {
-            list = Files.lines( Paths.get( file.getPath() ),
-                    StandardCharsets.UTF_8 ).collect( Collectors.toCollection( ArrayList::new ) );
+    public static List<String> getAllRecords(String fileName) throws DAOException, IOException {
+        if( fileName == null ) {
+            throw new DAOException( "Null filename" );
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        else {
+            return Files.lines( Paths.get( file.getPath() ),
+                    StandardCharsets.UTF_8 ).collect( Collectors.toList() );
         }
-        return list;
 
     }
 

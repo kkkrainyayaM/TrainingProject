@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Transaction {
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy.MM.dd" );
     private int id;
     private TransCategory category;
     private String date;
@@ -16,7 +17,7 @@ public class Transaction {
 
     public Transaction(TransCategory category, float sum) throws IncorrectFileException {
         this.category = category;
-        this.date = new SimpleDateFormat( "yyyy.MM.dd" ).format( new Date() );
+        this.date = dateFormat.format( new Date() );
         this.id = IDGenerator.getInstance().getIDTransaction();
         this.userId = Session.getInstance().getUser().getId();
         this.sum = sum;

@@ -7,13 +7,13 @@ import by.javatr.project.exceptions.serviceexception.ServiceException;
 import by.javatr.project.services.factory.ServiceFactory;
 import by.javatr.project.views.ViewTransactions;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetTransactions implements Command {
     @Override
     public String execute(String request) throws ControllerException {
-        ArrayList<Transaction> list = null;
+        List<Transaction> list;
         try {
             list = ServiceFactory.getInstance().getTransactionService().getTransactions();
         }

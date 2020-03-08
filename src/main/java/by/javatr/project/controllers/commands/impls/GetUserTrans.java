@@ -8,7 +8,7 @@ import by.javatr.project.exceptions.serviceexception.ServiceException;
 import by.javatr.project.services.factory.ServiceFactory;
 import by.javatr.project.views.ViewTransactions;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetUserTrans implements Command {
@@ -16,7 +16,7 @@ public class GetUserTrans implements Command {
     public String execute(String request) {
         String response = null;
         User user = Session.getInstance().getUser();
-        ArrayList<Transaction> list = null;
+        List<Transaction> list = null;
         try {
             list = ServiceFactory.getInstance().getTransactionService().getTransByUser( user );
         }

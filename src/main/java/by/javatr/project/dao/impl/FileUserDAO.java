@@ -7,7 +7,8 @@ import by.javatr.project.exceptions.daoexception.DAOException;
 import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 import by.javatr.project.utils.FileUtil;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.sun.xml.internal.stream.writers.WriterUtility.SPACE;
@@ -21,11 +22,10 @@ public class FileUserDAO implements UserDAO {
     private static final int NAME_INDEX = 4;
     private static final String FILE_NAME = "C:/Users/rizhi/Documents/" +
             "Training/FinancialAccountingApp/src/main/resources/users.txt";
-    private FileUtil fileUtil = new FileUtil( FILE_NAME );
-    private ArrayList<User> users;
+    private List<User> users;
 
 
-    public FileUserDAO() throws IncorrectFileException {
+    public FileUserDAO() throws DAOException {
         users = getAll();
     }
 
@@ -40,22 +40,22 @@ public class FileUserDAO implements UserDAO {
     @Override
     public void signUp(User user) throws IncorrectFileException, DAOException {
         if( user == null ) throw new DAOException( "Null user" );
-        fileUtil.addRecord( user.getId() + " " + user.getType() + " " + user.getLogin()
-                + " " + user.getPassword() + " " + user.getName() );
+        FileUtil.addRecord( user.getId() + " " + user.getType() + " " + user.getLogin()
+                + " " + user.getPassword() + " " + user.getName(), FILE_NAME );
         users.add( user );
 
     }
 
     @Override
-    public void delete(int id) throws DAOException {
+    public void delete(int id) throws DAOException, IncorrectFileException {
         if( id < 1 ) throw new DAOException( "incorrect id" );
         users.remove( users.stream().findFirst().filter( x -> x.getId() == id ).get() );
-        fileUtil.updateFile( users.stream().map( this::buildString )
-                .collect( Collectors.toCollection( ArrayList::new ) ) );
+        FileUtil.updateFile( users.stream().map( this::buildString )
+                .collect( Collectors.toList() ), FILE_NAME );
     }
 
     @Override
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
@@ -67,11 +67,16 @@ public class FileUserDAO implements UserDAO {
                 .equals( password ) ).findFirst().get();
     }
 
-    private ArrayList<User> getAll() {
-        return fileUtil.getAllRecords().stream()
-                .map( this::buildUser )
-                .collect( Collectors
-                        .toCollection( ArrayList::new ) );
+    private List<User> getAll() throws DAOException {
+        try {
+            return FileUtil.getAllRecords( FILE_NAME ).stream()
+                    .map( this::buildUser )
+                    .collect( Collectors
+                            .toList() );
+        }
+        catch (DAOException | IOException e) {
+            throw new DAOException( "Couldn't get all users" );
+        }
 
     }
 

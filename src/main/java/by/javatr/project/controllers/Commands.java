@@ -1,6 +1,6 @@
 package by.javatr.project.controllers;
 
-public enum CommandName {
+public enum Commands {
     SIGN_IN,
     SIGN_UP,
     ADD_TRANSACTION,

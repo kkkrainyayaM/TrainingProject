@@ -7,7 +7,7 @@ import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 import by.javatr.project.exceptions.serviceexception.ServiceException;
 import by.javatr.project.services.ClientService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ClientServiceImpl implements ClientService {
 
@@ -44,7 +44,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ArrayList<User> getUsers() throws ServiceException {
+    public List<User> getUsers() throws ServiceException {
         try {
             return DAOFactoryImpl.getInstance().getUserDAO().getUsers();
         }

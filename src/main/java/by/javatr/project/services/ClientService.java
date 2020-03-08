@@ -4,7 +4,7 @@ import by.javatr.project.entities.User;
 import by.javatr.project.exceptions.daoexception.DAOException;
 import by.javatr.project.exceptions.serviceexception.ServiceException;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ClientService {
 
@@ -14,7 +14,7 @@ public interface ClientService {
 
     void register(User user) throws ServiceException;
 
-    ArrayList<User> getUsers() throws ServiceException;
+    List<User> getUsers() throws ServiceException;
 
     void deleteUser(int id) throws ServiceException;
 

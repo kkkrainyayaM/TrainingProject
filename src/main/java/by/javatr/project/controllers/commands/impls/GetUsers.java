@@ -8,7 +8,7 @@ import by.javatr.project.exceptions.serviceexception.ServiceException;
 import by.javatr.project.services.factory.ServiceFactory;
 import by.javatr.project.views.ViewUsers;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetUsers implements Command {
@@ -16,7 +16,7 @@ public class GetUsers implements Command {
     public String execute(String request) throws ControllerException {
         ViewUsers view = new ViewUsers();
         String response;
-        ArrayList<User> list = null;
+        List<User> list;
         try {
             list = ServiceFactory.getInstance().getClientService().getUsers();
         }

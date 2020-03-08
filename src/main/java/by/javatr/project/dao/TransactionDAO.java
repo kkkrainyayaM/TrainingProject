@@ -6,7 +6,7 @@ import by.javatr.project.entities.User;
 import by.javatr.project.exceptions.daoexception.DAOException;
 import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface TransactionDAO {
     /**
@@ -22,21 +22,21 @@ public interface TransactionDAO {
      * @param user - User
      * @return list of transactions
      */
-    ArrayList<Transaction> findByUser(User user) throws DAOException;
+    List<Transaction> findByUser(User user) throws DAOException;
 
     /**
      * Delete transaction from file
      *
      * @param id - Transaction id
      */
-    void delete(int id) throws DAOException;
+    void delete(int id) throws DAOException, IncorrectFileException;
 
     /**
      * Get all transaction
      *
      * @return - list of all transactions
      */
-    ArrayList<Transaction> getTransactions();
+    List<Transaction> getTransactions();
 
     int getLastId();
 }

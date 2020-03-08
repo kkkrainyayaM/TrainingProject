@@ -4,7 +4,7 @@ import by.javatr.project.entities.User;
 import by.javatr.project.exceptions.daoexception.DAOException;
 import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface UserDAO {
 
@@ -29,14 +29,14 @@ public interface UserDAO {
      *
      * @param id - User id
      */
-    void delete(int id) throws DAOException;
+    void delete(int id) throws DAOException, IncorrectFileException;
 
     /**
      * Get all users
      *
      * @return list of users
      */
-    ArrayList<User> getUsers();
+    List<User> getUsers();
 
     /**
      * Get User after authentication by login and password

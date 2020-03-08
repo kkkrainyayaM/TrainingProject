@@ -8,7 +8,8 @@ import by.javatr.project.exceptions.daoexception.DAOException;
 import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 import by.javatr.project.utils.FileUtil;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.sun.xml.internal.stream.writers.WriterUtility.SPACE;
@@ -22,49 +23,52 @@ public class FileTransactionDAO implements TransactionDAO {
     private static final int USER_ID_INDEX = 3;
     private static final int SUM_INDEX = 4;
     private static final String FILE_NAME = "C:/Users/rizhi/Documents/Training/FinancialAccountingApp/src/main/resources/transactions.txt";
-    private FileUtil fileUtil = new FileUtil( FILE_NAME );
-    private ArrayList<Transaction> transactions;
+    private static List<Transaction> transactions;
 
-    public FileTransactionDAO() throws IncorrectFileException {
+    public FileTransactionDAO() throws DAOException {
         transactions = getAll();
     }
 
     @Override
     public void add(Transaction transaction) throws IncorrectFileException, DAOException {
         if( transaction == null ) throw new DAOException( "Null transaction" );
-        fileUtil.addRecord( transaction.getId() + " " + transaction.getCategory()
+        FileUtil.addRecord( transaction.getId() + " " + transaction.getCategory()
                 + " " + transaction.getDate() + " " + transaction.getUserId()
-                + " " + transaction.getSum() );
+                + " " + transaction.getSum(), FILE_NAME );
         transactions.add( transaction );
     }
 
     @Override
-    public ArrayList<Transaction> findByUser(User user) throws DAOException {
+    public List<Transaction> findByUser(User user) throws DAOException {
         if( user == null ) throw new DAOException( "Null user" );
         return transactions.stream().filter( x -> user.getId() == x.getUserId() )
-                .collect( Collectors.toCollection( ArrayList::new ) );
+                .collect( Collectors.toList() );
 
     }
 
     @Override
-    public void delete(int id) throws DAOException {
+    public void delete(int id) throws DAOException, IncorrectFileException {
         if( id < 1 ) throw new DAOException( "Incorrect id" );
         transactions.remove( transactions.stream().findFirst().filter( x -> x.getId() == id ).get() );
-        fileUtil.updateFile( transactions.stream().map( this::buildString )
-                .collect( Collectors.toCollection( ArrayList::new ) ) );
-
+        FileUtil.updateFile( transactions.stream().map( this::buildString )
+                .collect( Collectors.toList() ), FILE_NAME );
     }
 
     @Override
-    public ArrayList<Transaction> getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
-    private ArrayList<Transaction> getAll() {
-        return fileUtil.getAllRecords().stream()
-                .map( this::buildTransaction )
-                .collect( Collectors
-                        .toCollection( ArrayList::new ) );
+    private List<Transaction> getAll() throws DAOException {
+        try {
+            return FileUtil.getAllRecords( FILE_NAME ).stream()
+                    .map( this::buildTransaction )
+                    .collect( Collectors
+                            .toList() );
+        }
+        catch (DAOException | IOException e) {
+            throw new DAOException( "Couldn't get all transactions" );
+        }
     }
 
 
@@ -78,9 +82,13 @@ public class FileTransactionDAO implements TransactionDAO {
     }
 
     private String buildString(Transaction transaction) {
-        return transaction.getId() + " " + transaction.getCategory()
-                + " " + transaction.getDate() + " " + transaction.getUserId()
-                + " " + transaction.getSum();
+        StringBuilder stringBuilder = new StringBuilder()
+                .append( transaction.getId() ).append( SPACE )
+                .append( transaction.getCategory() ).append( SPACE )
+                .append( transaction.getDate() ).append( SPACE )
+                .append( transaction.getUserId() ).append( SPACE )
+                .append( transaction.getSum() );
+        return stringBuilder.toString();
     }
 
     public int getLastId() {

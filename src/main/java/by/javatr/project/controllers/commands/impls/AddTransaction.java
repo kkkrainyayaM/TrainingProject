@@ -15,7 +15,7 @@ public class AddTransaction implements Command {
         TransactionService transactionService = ServiceFactory.getInstance().getTransactionService();
         ViewAddTrans viewAddTrans = new ViewAddTrans();
         viewAddTrans.show();
-        Transaction transaction = null;
+        Transaction transaction;
         try {
             transaction = new Transaction( viewAddTrans.getCategory(), viewAddTrans.getSum() );
             transactionService.addTransaction( transaction );

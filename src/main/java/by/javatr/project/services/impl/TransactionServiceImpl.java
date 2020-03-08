@@ -8,7 +8,7 @@ import by.javatr.project.exceptions.daoexception.IncorrectFileException;
 import by.javatr.project.exceptions.serviceexception.ServiceException;
 import by.javatr.project.services.TransactionService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionServiceImpl implements TransactionService {
     @Override
@@ -22,7 +22,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ArrayList<Transaction> getTransactions() throws ServiceException {
+    public List<Transaction> getTransactions() throws ServiceException {
         try {
             return DAOFactoryImpl.getInstance().getTransactionDAO().getTransactions();
         }
@@ -32,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ArrayList<Transaction> getTransByUser(User user) throws ServiceException {
+    public List<Transaction> getTransByUser(User user) throws ServiceException {
         try {
             return DAOFactoryImpl.getInstance().getTransactionDAO().findByUser( user );
         }
