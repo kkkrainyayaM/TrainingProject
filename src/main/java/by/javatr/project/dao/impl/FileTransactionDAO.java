@@ -35,6 +35,9 @@ public class FileTransactionDAO implements TransactionDAO {
     @Override
     public void add(Transaction transaction) throws IncorrectFileException, DAOException {
         if( isNull( transaction ) ) throw new DAOException( "Null transaction" );
+        if( !transaction.getCategory().equals( TransCategory.INCOME ) ) {
+            transaction.setSum( 0 - transaction.getSum() );
+        }
         FileUtil.addRecord( getNewId() + " " + transaction.getCategory()
                 + " " + transaction.getDate() + " " + transaction.getUserId()
                 + " " + transaction.getSum(), FILE_NAME );

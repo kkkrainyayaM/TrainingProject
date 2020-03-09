@@ -50,4 +50,14 @@ public class TransactionServiceImpl implements TransactionService {
             throw new ServiceException( "Couldn't delete transaction with id=" + id, e );
         }
     }
+
+    @Override
+    public Transaction getLastTransaction(User user) throws ServiceException {
+        return getTransByUser( user ).stream().reduce( (first, second) -> second ).orElse( null );
+    }
+
+    @Override
+    public float getBalance(User user) throws ServiceException {
+        return (float) getTransByUser( user ).stream().mapToDouble( Transaction::getSum ).sum();
+    }
 }

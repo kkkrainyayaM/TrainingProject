@@ -38,4 +38,22 @@ public interface TransactionService {
      * @throws ServiceException
      */
     void deleteTransaction(int id) throws ServiceException;
+
+    /**
+     * Get last transaction of user
+     *
+     * @param user - User
+     * @return transaction
+     * @throws ServiceException
+     */
+    Transaction getLastTransaction(User user) throws ServiceException;
+
+    /**
+     * Get actual balance of user's account
+     *
+     * @param user - User
+     * @return balance
+     * @throws ServiceException
+     */
+    float getBalance(User user) throws ServiceException;
 }

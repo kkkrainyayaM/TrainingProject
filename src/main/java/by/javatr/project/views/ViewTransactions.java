@@ -8,7 +8,7 @@ public class ViewTransactions {
             System.out.println( "Нет проведенных транзакций!" );
         }
         else {
-            System.out.println( "Проведенные транзакции:" );
+            System.out.println( "Транзакции:" );
             System.out.println( transactions );
         }
     }

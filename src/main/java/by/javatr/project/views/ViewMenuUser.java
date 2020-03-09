@@ -11,7 +11,7 @@ public class ViewMenuUser extends View {
         String selectedCommand = null;
         if( isItemNum( selectedOperation ) ) {
             switch (selectedOperation) {
-                case 1:{
+                case 1: {
                     selectedCommand = "get_balance";
                     break;
                 }
@@ -28,14 +28,15 @@ public class ViewMenuUser extends View {
                     break;
                 }
                 case 5: {
+                    selectedCommand = "get_last_transaction";
+                    break;
+                }
+                case 6: {
                     selectedCommand = "exit";
                     Main.ACTIVE_VIEW = null;
                     break;
                 }
-                case 6:{
-                    selectedCommand = "get_last_transaction";
-                    break;
-                }
+
                 default: {
                     System.out.println( "Повторите ввод!" );
                 }
@@ -51,6 +52,6 @@ public class ViewMenuUser extends View {
 
     @Override
     protected String getMenuItems() {
-        return "1.Баланс\n2.Добавить транзакцию\n3.Мои транзакции\n4.Удалить транзакцию\n5.Последняя транзакция\n5.Выход";
+        return "1.Баланс\n2.Добавить транзакцию\n3.Мои транзакции\n4.Удалить транзакцию\n5.Последняя транзакция\n6.Выход";
     }
 }

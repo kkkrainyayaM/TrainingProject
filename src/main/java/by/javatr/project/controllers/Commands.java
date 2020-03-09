@@ -10,6 +10,8 @@ public enum Commands {
     DELETE_USER,
     GET_USERS,
     SHOW_USER_MENU,
-    SHOW_ADMIN_MENU
+    SHOW_ADMIN_MENU,
+    GET_LAST_TRANSACTION,
+    GET_BALANCE
 
 }
