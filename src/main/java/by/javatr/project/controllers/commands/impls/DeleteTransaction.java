@@ -12,31 +12,54 @@ import by.javatr.project.views.ViewMenuAdmin;
 import by.javatr.project.views.ViewMenuUser;
 
 public class DeleteTransaction implements Command {
+
+    private static ViewDelete viewDelete = new ViewDelete();
+
     @Override
     public View execute(String request) throws ControllerException {
-        int id;
+        boolean hasTransactions;
         if( Session.getInstance().getUser().getType() == UserType.ADMIN ) {
-            GetTransactions getTransactions = new GetTransactions();
-            getTransactions.execute( request );
+            hasTransactions = executeAdmin( request );
         }
         else {
-            GetUserTrans getUserTrans = new GetUserTrans();
-            getUserTrans.execute( request );
+            hasTransactions = executeUser( request );
         }
-        ViewDelete viewDelete = new ViewDelete();
+        if( hasTransactions ) {
+            delete();
+        }
+        else {
+            viewDelete.showEmptyTrans();
+        }
+        if( Session.getInstance().getUser().getType() == UserType.ADMIN ) {
+            return new ViewMenuAdmin();
+        }
+        else {
+            return new ViewMenuUser();
+        }
+
+    }
+
+    private static boolean executeUser(String request) throws ControllerException {
+        GetUserTrans getUserTrans = new GetUserTrans();
+        getUserTrans.execute( request );
+        return getUserTrans.hasTransactions();
+    }
+
+    private static boolean executeAdmin(String request) throws ControllerException {
+        GetTransactions getTransactions = new GetTransactions();
+        getTransactions.execute( request );
+        return getTransactions.hasTransactions();
+    }
+
+    private static void delete() throws ControllerException {
         viewDelete.show();
-        id = viewDelete.getId();
+        int id = viewDelete.getId();
         try {
             ServiceFactory.getInstance().getTransactionService().deleteTransaction( id );
-            if( Session.getInstance().getUser().getType() == UserType.ADMIN ) {
-                return new ViewMenuAdmin();
-            }
-            else {
-                return new ViewMenuUser();
-            }
         }
         catch (ServiceException e) {
             throw new ControllerException( "Couldn't delete transaction with id=" + id, e );
         }
+        viewDelete.showResult();
     }
 }

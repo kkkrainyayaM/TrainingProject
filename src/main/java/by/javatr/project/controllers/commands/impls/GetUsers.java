@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetUsers implements Command {
+    private static ViewUsers view = new ViewUsers();
+
     @Override
     public View execute(String request) throws ControllerException {
-        ViewUsers view = new ViewUsers();
         try {
             List<User> list = ServiceFactory.getInstance().getClientService().getUsers();
             String response = list.stream().filter( x -> x.getType() == UserType.CLIENT )

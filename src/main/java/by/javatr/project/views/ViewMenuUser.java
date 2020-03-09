@@ -1,57 +1,56 @@
 package by.javatr.project.views;
 
-import by.javatr.project.controllers.Controller;
-import by.javatr.project.exceptions.controllerexception.ControllerException;
 import by.javatr.project.exceptions.viewexception.ViewException;
 
-import java.util.Scanner;
+import static by.javatr.project.validations.Validator.isItemNum;
 
 public class ViewMenuUser extends View {
+
     @Override
     protected String getCommand(int selectedOperation) {
         String selectedCommand = null;
-        switch (selectedOperation) {
-            case 1: {
-                selectedCommand = "add_transaction";
-                break;
-            }
-            case 2: {
-                selectedCommand = "transactions_by_user";
-                break;
-            }
-            case 3: {
-                selectedCommand = "delete_transaction";
-                break;
-            }
-            case 4: {
-                selectedCommand = "exit";
-                Main.ACTIVE_VIEW = null;
-                break;
-            }
-            default: {
-                System.out.println( "Повторите ввод!" );
+        if( isItemNum( selectedOperation ) ) {
+            switch (selectedOperation) {
+                case 1:{
+                    selectedCommand = "get_balance";
+                    break;
+                }
+                case 2: {
+                    selectedCommand = "add_transaction";
+                    break;
+                }
+                case 3: {
+                    selectedCommand = "transactions_by_user";
+                    break;
+                }
+                case 4: {
+                    selectedCommand = "delete_transaction";
+                    break;
+                }
+                case 5: {
+                    selectedCommand = "exit";
+                    Main.ACTIVE_VIEW = null;
+                    break;
+                }
+                case 6:{
+                    selectedCommand = "get_last_transaction";
+                    break;
+                }
+                default: {
+                    System.out.println( "Повторите ввод!" );
+                }
             }
         }
         return selectedCommand;
     }
 
     public void show() throws ViewException {
-        try {
-            System.out.println( getMenuItems() );
-            Scanner scanner = new Scanner( System.in );
-            String command = getCommand( scanner.nextInt() );
-            if( !command.equals( "exit" ) ) {
-                Controller.getInstance().executeTask( command );
-            }
-        }
-        catch (ControllerException e) {
-            throw new ViewException( "Error in execution of task", e );
-        }
+        super.show();
     }
 
 
     @Override
     protected String getMenuItems() {
-        return "1.Добавить транзакцию\n2.Мои транзакции\n3.Удалить транзакцию\n4.Выход";
+        return "1.Баланс\n2.Добавить транзакцию\n3.Мои транзакции\n4.Удалить транзакцию\n5.Последняя транзакция\n5.Выход";
     }
 }

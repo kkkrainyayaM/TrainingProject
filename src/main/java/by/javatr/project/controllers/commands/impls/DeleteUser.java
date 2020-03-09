@@ -17,8 +17,8 @@ public class DeleteUser implements Command {
         viewDelete.show();
         int id = viewDelete.getId();
         try {
-
             ServiceFactory.getInstance().getClientService().deleteUser( id );
+            viewDelete.showResult();
             return new ViewMenuAdmin();
         }
         catch (ServiceException e) {

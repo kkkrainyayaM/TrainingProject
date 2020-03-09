@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static by.javatr.project.validations.Validator.isId;
+import static by.javatr.project.validations.Validator.isNull;
 import static com.sun.xml.internal.stream.writers.WriterUtility.SPACE;
 
 public class FileUserDAO implements UserDAO {
@@ -31,7 +33,7 @@ public class FileUserDAO implements UserDAO {
 
     @Override
     public boolean signIn(String login, String password) throws DAOException {
-        if( login.equals( "" ) || password.equals( "" ) ) throw new DAOException( "Null credentials" );
+        if( isNull( login ) || isNull( password ) ) throw new DAOException( "Null credentials" );
         return users.stream().anyMatch( x -> x.getLogin()
                 .equals( login ) && x.getPassword()
                 .equals( password ) );
@@ -39,7 +41,7 @@ public class FileUserDAO implements UserDAO {
 
     @Override
     public void signUp(User user) throws IncorrectFileException, DAOException {
-        if( user == null ) throw new DAOException( "Null user" );
+        if( isNull( user ) ) throw new DAOException( "Null user" );
         FileUtil.addRecord( getNewId() + " " + user.getType() + " " + user.getLogin()
                 + " " + user.getPassword() + " " + user.getName(), FILE_NAME );
         users.add( user );
@@ -48,7 +50,7 @@ public class FileUserDAO implements UserDAO {
 
     @Override
     public void delete(int id) throws DAOException, IncorrectFileException {
-        if( id < 1 ) throw new DAOException( "incorrect id" );
+        if( !isId( id ) ) throw new DAOException( "incorrect id" );
         users.remove( users.stream().filter( x -> x.getId() == id ).findFirst().get() );
         FileUtil.updateFile( users.stream().map( this::buildString )
                 .collect( Collectors.toList() ), FILE_NAME );
@@ -61,7 +63,7 @@ public class FileUserDAO implements UserDAO {
 
     @Override
     public User getUser(String login, String password) throws DAOException {
-        if( login.equals( "" ) || password.equals( "" ) ) throw new DAOException( "Null credentials" );
+        if( isNull( login ) || isNull( password ) ) throw new DAOException( "Null credentials" );
         return users.stream().filter( x -> x.getLogin()
                 .equals( login ) && x.getPassword()
                 .equals( password ) ).findFirst().get();
@@ -96,6 +98,6 @@ public class FileUserDAO implements UserDAO {
 
 
     private int getNewId() {
-        return users.get( users.size() - 1 ).getId()+1;
+        return users.get( users.size() - 1 ).getId() + 1;
     }
 }

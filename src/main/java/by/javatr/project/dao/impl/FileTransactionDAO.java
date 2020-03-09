@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static by.javatr.project.validations.Validator.isId;
+import static by.javatr.project.validations.Validator.isNull;
 import static com.sun.xml.internal.stream.writers.WriterUtility.SPACE;
 
 
@@ -22,7 +24,8 @@ public class FileTransactionDAO implements TransactionDAO {
     private static final int DATE_INDEX = 2;
     private static final int USER_ID_INDEX = 3;
     private static final int SUM_INDEX = 4;
-    private static final String FILE_NAME = "C:/Users/rizhi/Documents/Training/FinancialAccountingApp/src/main/resources/transactions.txt";
+    private static final String FILE_NAME = "C:/Users/rizhi/Documents/Training" +
+            "/FinancialAccountingApp/src/main/resources/transactions.txt";
     private static List<Transaction> transactions;
 
     public FileTransactionDAO() throws DAOException {
@@ -31,7 +34,7 @@ public class FileTransactionDAO implements TransactionDAO {
 
     @Override
     public void add(Transaction transaction) throws IncorrectFileException, DAOException {
-        if( transaction == null ) throw new DAOException( "Null transaction" );
+        if( isNull( transaction ) ) throw new DAOException( "Null transaction" );
         FileUtil.addRecord( getNewId() + " " + transaction.getCategory()
                 + " " + transaction.getDate() + " " + transaction.getUserId()
                 + " " + transaction.getSum(), FILE_NAME );
@@ -40,7 +43,7 @@ public class FileTransactionDAO implements TransactionDAO {
 
     @Override
     public List<Transaction> findByUser(User user) throws DAOException {
-        if( user == null ) throw new DAOException( "Null user" );
+        if( isNull( user ) ) throw new DAOException( "Null user" );
         return transactions.stream().filter( x -> user.getId() == x.getUserId() )
                 .collect( Collectors.toList() );
 
@@ -48,7 +51,7 @@ public class FileTransactionDAO implements TransactionDAO {
 
     @Override
     public void delete(int id) throws DAOException, IncorrectFileException {
-        if( id < 1 ) throw new DAOException( "Incorrect id" );
+        if( !isId( id ) ) throw new DAOException( "Incorrect id" );
         transactions.remove( transactions.stream().filter( x -> x.getId() == id ).findFirst().get() );
         FileUtil.updateFile( transactions.stream().map( this::buildString )
                 .collect( Collectors.toList() ), FILE_NAME );
@@ -93,6 +96,6 @@ public class FileTransactionDAO implements TransactionDAO {
 
     private int getNewId() {
         if( transactions.size() == 0 ) return 1;
-        else return transactions.get( transactions.size() - 1 ).getId()+1;
-   }
+        else return transactions.get( transactions.size() - 1 ).getId() + 1;
+    }
 }

@@ -11,10 +11,12 @@ import by.javatr.project.views.ViewAddTrans;
 import by.javatr.project.views.ViewMenuUser;
 
 public class AddTransaction implements Command {
+
+    private static ViewAddTrans viewAddTrans = new ViewAddTrans();
+
     @Override
     public View execute(String request) throws ControllerException {
         TransactionService transactionService = ServiceFactory.getInstance().getTransactionService();
-        ViewAddTrans viewAddTrans = new ViewAddTrans();
         viewAddTrans.show();
         try {
             Transaction transaction = new Transaction( viewAddTrans.getCategory(), viewAddTrans.getSum() );

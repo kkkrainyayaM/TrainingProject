@@ -13,18 +13,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetTransactions implements Command {
+
+    private static List<Transaction> list;
+    private static ViewTransactions viewTransactions = new ViewTransactions();
     @Override
     public View execute(String request) throws ControllerException {
-
         try {
-            List<Transaction> list = ServiceFactory.getInstance().getTransactionService().getTransactions();
+            list = ServiceFactory.getInstance().getTransactionService().getTransactions();
             String response = list.stream().map( Object::toString ).collect( Collectors.joining( "\n" ) );
-            ViewTransactions viewTransactions = new ViewTransactions();
             viewTransactions.show( response );
             return new ViewMenuAdmin();
         }
         catch (ServiceException e) {
             throw new ControllerException( "Couldn't get transactions", e );
         }
+    }
+
+    public boolean hasTransactions() {
+        return !list.isEmpty();
     }
 }

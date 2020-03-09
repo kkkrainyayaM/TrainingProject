@@ -2,7 +2,6 @@ package by.javatr.project.entities;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 public class Transaction {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy.MM.dd" );
@@ -73,7 +72,14 @@ public class Transaction {
 
     @Override
     public int hashCode() {
-        return Objects.hash( getCategory(), getDate(), getId(), getUserId(), getSum() );
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + category.hashCode();
+        result = prime * result + date.hashCode();
+        result = prime * result + id;
+        result = prime * result + userId;
+        result = prime * result + (int) getSum();
+        return result;
     }
 
     @Override

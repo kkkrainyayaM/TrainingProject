@@ -18,8 +18,7 @@ public class SignIn implements Command {
 
     @Override
     public View execute(String request) throws ControllerException {
-        View view = null;
-
+        View view;
         viewSignIn.show();
         String login = viewSignIn.getLogin();
         String password = viewSignIn.getPassword();

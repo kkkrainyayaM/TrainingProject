@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 public class ViewAddTrans {
     private float sum;
-
     private int category;
+    private static Scanner scanner = new Scanner( System.in );
 
     public void show() {
-        System.out.println( "Выберите категорию:\n1.Доход.\n2.Оплата питания\n3.Оплата дома\n4.Оплата услуг\n5.Оплата одежды\n6.Оплата машины\n7.Другое" );
-        Scanner scanner = new Scanner( System.in );
+        System.out.println( "Выберите категорию:\n1.Доход.\n2.Оплата питания" +
+                "\n3.Оплата дома\n4.Оплата услуг\n5.Оплата одежды\n6.Оплата машины\n7.Другое" );
         category = scanner.nextInt();
         System.out.println( "Введите сумму:" );
         sum = scanner.nextFloat();

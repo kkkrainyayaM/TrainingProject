@@ -1,8 +1,10 @@
 package by.javatr.project.views;
 
+import static by.javatr.project.validations.Validator.isNull;
+
 public class ViewTransactions {
     public void show(String transactions) {
-        if( transactions == null ) {
+        if( isNull(transactions) ) {
             System.out.println( "Нет проведенных транзакций!" );
         }
         else {

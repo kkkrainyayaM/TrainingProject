@@ -14,4 +14,12 @@ public class ViewDelete {
     public int getId() {
         return id;
     }
+
+    public void showResult() {
+        System.out.println( "Элемент удален!" );
+    }
+
+    public void showEmptyTrans(){
+        System.out.println( "Список транзакций пуст!" );
+    }
 }

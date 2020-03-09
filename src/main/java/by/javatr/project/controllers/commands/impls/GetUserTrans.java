@@ -15,21 +15,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetUserTrans implements Command {
+    private static List<Transaction> list;
+    private static ViewTransactions viewTransactions = new ViewTransactions();
+
     @Override
     public View execute(String request) throws ControllerException {
         String response = null;
         User user = Session.getInstance().getUser();
         try {
-            List<Transaction> list = ServiceFactory.getInstance().getTransactionService().getTransByUser( user );
+            list = ServiceFactory.getInstance().getTransactionService().getTransByUser( user );
             if( list != null ) {
                 response = list.stream().map( Object::toString ).collect( Collectors.joining( "\n" ) );
             }
-            ViewTransactions viewTransactions = new ViewTransactions();
             viewTransactions.show( response );
             return new ViewMenuUser();
         }
         catch (ServiceException e) {
             throw new ControllerException( "Couldn't get transactions of user", e );
         }
+    }
+
+    boolean hasTransactions() {
+        return !list.isEmpty();
     }
 }

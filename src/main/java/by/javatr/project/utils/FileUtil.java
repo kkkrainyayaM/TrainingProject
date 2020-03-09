@@ -12,6 +12,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static by.javatr.project.validations.Validator.isNull;
+
 public class FileUtil {
 
     private FileUtil() {
@@ -19,7 +21,7 @@ public class FileUtil {
 
     public static void addRecord(String record, String fileName) throws DAOException, IncorrectFileException {
         try {
-            if( record.equals( "" ) ) throw new DAOException( "Null record" );
+            if( isNull( record ) ) throw new DAOException( "Null record" );
             FileWriter fileWriter = new FileWriter( new File( fileName ), true );
             fileWriter.write( record + "\n" );
             fileWriter.flush();
@@ -33,20 +35,11 @@ public class FileUtil {
 
     public static void updateFile(List<String> records, String fileName) throws DAOException, IncorrectFileException {
         try {
-            if( records == null ) throw new DAOException( "Null records" );
+            if( isNull( records ) || isNull( fileName ) ) throw new DAOException( "Null records" );
             clearFile( new File( fileName ) );
             FileWriter fileWriter = new FileWriter( new File( fileName ), true );
-            /*Stream.of( records ).forEach( str -> {
-                try {
-                    fileWriter.write( str + "\n" );
-                    fileWriter.flush();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } );*/
-            for(int i=0; i < records.size(); i++){
-                addRecord( records.get( i ),fileName );
+            for (String record : records) {
+                addRecord( record, fileName );
             }
             fileWriter.close();
         }
@@ -66,7 +59,7 @@ public class FileUtil {
     }
 
     public static List<String> getAllRecords(String fileName) throws DAOException, IOException {
-        if( fileName == null ) {
+        if( isNull(fileName) ) {
             throw new DAOException( "Null filename" );
         }
         else {

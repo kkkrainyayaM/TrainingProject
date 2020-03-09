@@ -1,8 +1,6 @@
 package by.javatr.project.entities;
 
 
-import java.util.Objects;
-
 public class User {
     private int id;
     private UserType type;
@@ -71,7 +69,14 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash( getId(), getType(), getLogin(), getPassword() );
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + login.hashCode();
+        result = prime * result + password.hashCode();
+        result = prime * result + type.hashCode();
+        result = prime * result + name.hashCode();
+        return result;
     }
 
     @Override
